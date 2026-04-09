@@ -32,6 +32,16 @@ Then open:
 http://localhost:8080/RegEx/
 ```
 
+You can also use the top-level helper script for app lifecycle actions:
+
+```bash
+./apps.sh list
+./apps.sh status all
+./apps.sh start regex
+./apps.sh stop oconnell
+./apps.sh rebuild all
+```
+
 ## Tailscale HTTPS access
 
 Once the Docker stack is up, publish the shared nginx endpoint with:
