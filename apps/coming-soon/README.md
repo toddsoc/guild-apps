@@ -6,7 +6,7 @@ This app serves a single static "Coming Soon" page for `www.oconnell.network`.
 
 - `site/index.html`: page markup
 - `site/styles.css`: styling
-- `site/assets/crest.png`: your crest image (add this file)
+- `site/assets/shield.png`: shield image used on the page
 
 ## Local preview
 
@@ -20,7 +20,9 @@ Then open:
 http://localhost:8081
 ```
 
-If `site/assets/crest.png` is missing, the page shows an `OC` fallback badge.
+If `site/assets/shield.png` is missing, the page shows an `OC` fallback badge.
+
+The page includes a collapsed `Image attribution` control linking to Wikimedia Commons and the CC BY-SA 4.0 license.
 
 ## Cloudflare publish
 

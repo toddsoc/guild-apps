@@ -60,10 +60,10 @@ https://todd-ubuntu-docker.nuthatch-ruler.ts.net/RegEx/
 
 ### Quick start
 
-1. Add your crest image:
+1. Add your shield image:
 
 ```text
-apps/coming-soon/site/assets/crest.png
+apps/coming-soon/site/assets/shield.png
 ```
 
 2. Create the Cloudflare token secret file and set your token:

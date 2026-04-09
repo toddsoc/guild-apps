@@ -33,8 +33,8 @@ body {
 }
 
 .crest {
-  width: 140px;
-  height: 140px;
+  width: clamp(300px, 62vw, 368px);
+  height: clamp(300px, 62vw, 368px);
   margin: 0 auto 1.1rem;
   object-fit: contain;
 }
@@ -59,4 +59,31 @@ p {
   margin: 0.65rem 0 0;
   color: var(--subtle);
   font-size: clamp(1rem, 3vw, 1.2rem);
+}
+
+.attribution {
+  margin: 0 0 1rem;
+  color: var(--subtle);
+  font-size: 0.9rem;
+  width: min(100%, 560px);
+  margin-inline: auto;
+  text-align: left;
+}
+
+.attribution summary {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.72rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.attribution p {
+  margin: 0.45rem 0 0;
+  line-height: 1.35;
+}
+
+.attribution a {
+  color: inherit;
+  text-decoration-thickness: 1px;
 }
