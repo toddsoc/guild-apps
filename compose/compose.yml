@@ -43,10 +43,16 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
+    user: "0:0"
     depends_on:
       - coming-soon
-    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-    environment:
-      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run --token-file /run/secrets/cloudflared_token
+    secrets:
+      - source: cloudflared_token
+        target: cloudflared_token
     profiles:
       - oconnell
+
+secrets:
+  cloudflared_token:
+    file: ./secrets/cloudflared_token.txt

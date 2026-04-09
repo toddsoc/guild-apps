@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$ROOT_DIR/compose/compose.yml"
 PROJECT_NAME="oconnell"
-OCONNELL_ENV_FILE="$ROOT_DIR/compose/.env.oconnell"
+OCONNELL_SECRET_FILE="$ROOT_DIR/compose/secrets/cloudflared_token.txt"
 
 usage() {
   cat <<'USAGE'
@@ -32,12 +32,18 @@ require_docker() {
 compose_regex=(docker compose -f "$COMPOSE_FILE")
 compose_oconnell=(docker compose -p "$PROJECT_NAME" -f "$COMPOSE_FILE")
 
-if [[ -f "$OCONNELL_ENV_FILE" ]]; then
-  compose_regex+=(--env-file "$OCONNELL_ENV_FILE")
-  compose_oconnell+=(--env-file "$OCONNELL_ENV_FILE")
-else
-  echo "Warning: $OCONNELL_ENV_FILE not found; oconnell cloudflared may fail to start." >&2
-fi
+require_oconnell_secret() {
+  if [[ ! -f "$OCONNELL_SECRET_FILE" ]]; then
+    cat >&2 <<EOF
+Error: missing Cloudflare tunnel secret file:
+  $OCONNELL_SECRET_FILE
+
+Create it from:
+  cp $ROOT_DIR/compose/secrets/cloudflared_token.txt.example $OCONNELL_SECRET_FILE
+EOF
+    exit 1
+  fi
+}
 
 list_apps() {
   cat <<'APPS'
@@ -51,6 +57,7 @@ status_regex() {
 }
 
 status_oconnell() {
+  require_oconnell_secret
   "${compose_oconnell[@]}" --profile oconnell ps coming-soon cloudflared
 }
 
@@ -59,6 +66,7 @@ start_regex() {
 }
 
 start_oconnell() {
+  require_oconnell_secret
   "${compose_oconnell[@]}" --profile oconnell up -d coming-soon cloudflared
 }
 
@@ -67,6 +75,7 @@ stop_regex() {
 }
 
 stop_oconnell() {
+  require_oconnell_secret
   "${compose_oconnell[@]}" --profile oconnell stop coming-soon cloudflared
 }
 
@@ -75,6 +84,7 @@ rebuild_regex() {
 }
 
 rebuild_oconnell() {
+  require_oconnell_secret
   "${compose_oconnell[@]}" --profile oconnell up -d --build coming-soon cloudflared
 }
 

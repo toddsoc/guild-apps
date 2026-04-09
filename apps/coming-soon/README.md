@@ -26,17 +26,30 @@ If `site/assets/crest.png` is missing, the page shows an `OC` fallback badge.
 
 ### Quick start
 
-1. In Zero Trust tunnel `oconnell-home`, publish:
-- Hostname: `oconnell.network`
+1. Create the token secret file:
+
+```bash
+cp compose/secrets/cloudflared_token.txt.example compose/secrets/cloudflared_token.txt
+chmod 600 compose/secrets/cloudflared_token.txt
+```
+
+2. Start local services:
+
+```bash
+docker compose -p oconnell -f compose/compose.yml --profile oconnell up -d coming-soon cloudflared
+```
+
+3. In Zero Trust tunnel `oconnell-home`, publish:
+- Hostname: `www.oconnell.network`
 - Service: `http://coming-soon:80`
 
-2. If the service URL field rejects this value, use:
+4. If the service URL field rejects this value, use:
 ```text
 Type: HTTP
 URL field value: coming-soon:80
 ```
 
-3. In DNS, keep:
+5. In DNS, keep:
 - `CNAME` `oconnell.network` -> `www.oconnell.network` (Proxied)
 - `CNAME` `www` -> `7b83675f-5ec0-4776-a50a-e180a85115fd.cfargotunnel.com` (Proxied)
 

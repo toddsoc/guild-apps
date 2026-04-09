@@ -10,3 +10,4 @@ build/
 *.log
 compose/.env
 compose/.env.*
+compose/secrets/*.txt

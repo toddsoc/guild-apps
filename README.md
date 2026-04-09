@@ -66,20 +66,21 @@ https://todd-ubuntu-docker.nuthatch-ruler.ts.net/RegEx/
 apps/coming-soon/site/assets/crest.png
 ```
 
-2. Create a tunnel token file and set your token:
+2. Create the Cloudflare token secret file and set your token:
 
 ```bash
-cp compose/.env.oconnell.example compose/.env.oconnell
+cp compose/secrets/cloudflared_token.txt.example compose/secrets/cloudflared_token.txt
+chmod 600 compose/secrets/cloudflared_token.txt
 ```
 
 3. Start the coming-soon stack:
 
 ```bash
-docker compose -p oconnell --env-file compose/.env.oconnell -f compose/compose.yml --profile oconnell up -d --build coming-soon cloudflared
+docker compose -p oconnell -f compose/compose.yml --profile oconnell up -d --build coming-soon cloudflared
 ```
 
 4. In Cloudflare Zero Trust (`oconnell-home` tunnel), add published application route:
-- `oconnell.network` -> `http://coming-soon:80`
+- `www.oconnell.network` -> `http://coming-soon:80`
 
 5. In Cloudflare DNS, set:
 - `CNAME` `oconnell.network` -> `www.oconnell.network` (Proxied)
@@ -103,7 +104,7 @@ concat("https://www.oconnell.network", http.request.uri.path)
 ```bash
 curl -I https://oconnell.network
 curl -I https://www.oconnell.network
-docker compose -p oconnell --env-file compose/.env.oconnell -f compose/compose.yml --profile oconnell logs --no-color --tail=80 cloudflared
+docker compose -p oconnell -f compose/compose.yml --profile oconnell logs --no-color --tail=80 cloudflared
 ```
 
 Expected:
