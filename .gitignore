@@ -8,3 +8,5 @@ __pycache__/
 dist/
 build/
 *.log
+compose/.env
+compose/.env.*

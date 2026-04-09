@@ -28,3 +28,25 @@ services:
       - "8080:80"
     volumes:
       - ../infra/nginx/conf.d/regex.conf:/etc/nginx/conf.d/default.conf:ro
+
+  coming-soon:
+    build:
+      context: ../apps/coming-soon
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "8081:80"
+    profiles:
+      - oconnell
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    depends_on:
+      - coming-soon
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    profiles:
+      - oconnell
