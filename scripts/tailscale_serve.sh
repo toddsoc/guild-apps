@@ -15,16 +15,17 @@ if ! command -v "$TAILSCALE_BIN" >/dev/null 2>&1; then
     exit 1
 fi
 
-if ! command -v "$SUDO_BIN" >/dev/null 2>&1; then
-    echo "sudo not found in PATH" >&2
-    exit 1
+TS_CMD=("$TAILSCALE_BIN")
+
+if [ "$(id -u)" -ne 0 ] && command -v "$SUDO_BIN" >/dev/null 2>&1 && "$SUDO_BIN" -n true >/dev/null 2>&1; then
+    TS_CMD=("$SUDO_BIN" "$TAILSCALE_BIN")
 fi
 
 echo "Resetting existing Tailscale Serve configuration..."
-"$SUDO_BIN" "$TAILSCALE_BIN" serve reset
+"${TS_CMD[@]}" serve reset
 
 echo "Publishing HTTPS for localhost:${PORT}${APP_PATH} to your tailnet..."
-"$SUDO_BIN" "$TAILSCALE_BIN" serve --bg "$PORT"
+"${TS_CMD[@]}" serve --bg "$PORT"
 
 echo
 "$TAILSCALE_BIN" serve status
