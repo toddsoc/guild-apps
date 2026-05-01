@@ -1,0 +1,14 @@
+[Unit]
+Description=Publish shared nginx through Tailscale Serve
+After=network-online.target tailscaled.service
+Wants=network-online.target
+Requires=tailscaled.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/toddsoc/projects/guild-apps
+ExecStart=/home/toddsoc/projects/guild-apps/scripts/tailscale_serve.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

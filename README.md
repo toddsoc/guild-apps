@@ -50,6 +50,12 @@ Once the Docker stack is up, publish the shared nginx endpoint with:
 ./scripts/tailscale_serve.sh
 ```
 
+To install a boot-time systemd unit for Tailscale Serve on a Linux host:
+
+```bash
+./scripts/install_tailscale_serve_service.sh
+```
+
 The expected app URL on this VM is:
 
 ```text
